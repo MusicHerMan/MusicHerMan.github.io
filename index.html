@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sliman | Rushyshop</title>
+  <style>
+    :root {
+      --bg: #070708;
+      --card: #0f1112;
+      --accent: #e11;
+      --muted: #9aa0a6;
+      --glass: rgba(255, 255, 255, 0.03);
+      --radius: 14px;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(
+          1200px 600px at 10% 10%,
+          rgba(225, 17, 17, 0.06),
+          transparent 6%
+        ),
+        linear-gradient(180deg, #050505 0%, #0b0b0b 100%);
+      color: #eee;
+      min-height: 100vh;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+      padding: 14px;
+      border-radius: 20px;
+      box-shadow: 0 6px 40px rgba(0, 0, 0, 0.6);
+    }
+    header .logo {
+      width: 96px;
+      height: 96px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.04);
+      background: #000;
+      flex: 0 0 96px;
+    }
+    header .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    header .brand {
+      flex: 1;
+      text-align: right;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    header p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    main {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 18px;
+      align-items: start;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--accent);
+      text-align: right;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 4px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: box-shadow 0.3s ease;
+    }
+    .card:hover {
+      box-shadow: 0 0 12px var(--accent);
+    }
+    .card h3 {
+      margin: 0 0 6px;
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+    }
+    .card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.3;
+    }
+    select,
+    button,
+    input[type="number"] {
+      font-family: inherit;
+      font-size: 14px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #111;
+      color: #eee;
+      cursor: pointer;
+      outline-offset: 2px;
+      transition: border-color 0.25s ease;
+      text-align: center;
+    }
+    select:focus,
+    button:focus,
+    input[type="number"]:focus {
+      border-color: var(--accent);
+      outline: none;
+    }
+    button {
+      background: var(--accent);
+      border: none;
+      color: #111;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(225, 17, 17, 0.15);
+      user-select: none;
+      transition: background-color 0.25s ease;
+    }
+    button:hover {
+      background-color: #b00d0d;
+    }
+    .flex-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 12px;
+    }
+    .flex-row > * {
+      flex: 1;
+    }
+    /* حساب فرق الرانك */
+    .price {
+      font-weight: 700;
+      color: #fff;
+      text-align: left;
+    }
+    /* أقسام القوائم */
+    #accounts-list,
+    #boost-list {
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    aside.cart {
+      position: sticky;
+      top: 24px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      height: fit-content;
+      min-width: 320px;
+    }
+    aside h4 {
+      margin: 0 0 12px;
+      text-align: right;
+      color: var(--accent);
+    }
+    .cart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 280px;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+    .cart-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: var(--glass);
+      padding: 8px;
+      border-radius: 8px;
+    }
+    .cart-item img {
+      width: 56px;
+      height: 56px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .ci-info {
+      flex: 1;
+      text-align: right;
+    }
+    .ci-info small {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .qty {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-direction: column;
+    }
+    .qty button {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 28px;
+      height: 28px;
+      user-select: none;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.03);
+      margin-top: 8px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      text-align: right;
+    }
+    .checkout {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-start;
+    }
+    .checkout button {
+      flex: 1;
+    }
+    footer {
+      width: 100%;
+      max-width: 1100px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 8px 0;
+    }
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      aside.cart {
+        position: relative;
+        top: auto;
+        min-width: auto;
+        width: 100%;
+        margin-top: 20px;
+      }
+      #accounts-list,
+      #boost-list {
+        max-height: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img
+        src="img/standard.gif"
+        alt="Rushyshop Logo"
+        loading="lazy"
+      />
+    </div>
+    <div class="brand">
+      <h1>Rushyshop — سليمان</h1>
+      <p>أنا سليمان (لقبي: Music) —سوبر سونك + توب 1 فلسطين  🚀</p>
+      <p>اذا تبي ترفع رانكك ل سوبر او توصل من توبات 50 على دولتك تعال دسكورد</p>
+      <p>
+        <a href="https://discord.gg/sC54XPTu6M" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none;">
+          رابط دسكورد هنا
+        </a>
+      </p>
+      <p>
+        <a href="https://guns.lol/myusic" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none;">
+          الرابط المواقع التواصل الاجتماعي هنا
+        </a>
+  </header>
+
+  <main>
+    <section class="services">
+      <h2 class="section-title">شراء حسابات رانك</h2>
+      <div id="accounts-list">
+        <!-- حسابات جاهزة -->
+      </div>
+
+      <h2 class="section-title" style="margin-top: 36px">ترفيع رانك</h2>
+      <div class="card" style="margin-bottom: 12px;">
+        <div class="flex-row" style="justify-content: flex-end; gap: 12px;">
+          <label for="start-rank" style="flex: 0 0 90px; font-weight: 700; color: var(--accent)">رانك البداية:</label>
+          <select id="start-rank" aria-label="رانك البداية">
+            <option value="bronze">برونز</option>
+            <option value="silver">سيلفر</option>
+            <option value="gold">غولد</option>
+            <option value="platinum">بلاتينيوم</option>
+            <option value="diamond">دايموند</option>
+            <option value="champion">تشامبيون</option>
+            <option value="grandchamp">جراند تشامبيون</option>
+          </select>
+        </div>
+        <div class="flex-row" style="justify-content: flex-end; gap: 12px;">
+          <label for="target-rank" style="flex: 0 0 90px; font-weight: 700; color: var(--accent)">رانك الهدف:</label>
+          <select id="target-rank" aria-label="رانك الهدف">
+            <option value="silver">سيلفر</option>
+            <option value="gold">غولد</option>
+            <option value="platinum">بلاتينيوم</option>
+            <option value="diamond">دايموند</option>
+            <option value="champion">تشامبيون</option>
+            <option value="grandchamp">جراند تشامبيون</option>
+            <option value="grandchamp">سوبر سونك </option>
+          </select>
+        </div>
+        <div class="price" style="text-align: right; margin-top: 10px;">
+          السعر: <span id="boost-price">0.00 $</span>
+        </div>
+        <button id="add-boost" style="margin-top: 10px;">أضف إلى السلة</button>
+      </div>
+    </section>
+
+    <aside class="cart">
+      <h4>السلة</h4>
+      <div class="cart-list" id="cartList">
+        <div style="color: var(--muted); font-size: 13px">
+          السلة فارغة — أضف خدمة أو حساب.
+        </div>
+      </div>
+      <div class="total">
+        <span>الإجمالي</span>
+        <span id="totalAmount">0.00 $</span>
+      </div>
+      <div class="checkout">
+        <button class="btn" id="checkoutBtn">الدفع عبر PayPal</button>
+        <button class="btn ghost" id="clearBtn" style="background: transparent; border: 1px solid rgba(255,255,255,0.03); color: var(--muted); font-weight: 600;">
+          تفريغ السلة
+        </button>
+      </div>
+      <small style="display: block; margin-top: 8px; color: var(--muted)">
+        بعد الضغط على الدفع سيتم تحويلك إلى PayPal لإتمام الدفع.
+      </small>
+    </aside>
+  </main>
+<footer>لو سمحت بعد الشراء تعال دس و افتح تكت و اكتب فيها معلومات حسابك في حال طلب رفع رانك و رح نكون معاك ب اقل من يوم</footer>
+
+  <footer>
+    © Rushyshop — سليمان (Music) — تواصل عبر الديسكورد عند الحاجة
+  </footer>
+<footer> طلبك رح يوصلنا و رح نشتغل عليه باقرب وقت</footer>
+  <script>
+    // حسابات جاهزة للشراء
+    const ACCOUNTS = [
+      { id: "acc1", title: "حساب برونز", desc: "حساب جاهز مع كلشي برونز", price: 3.0 },
+      { id: "acc2", title: "حساب سيلفر", desc: "حساب جاهز مع كلشي سيلفر", price: 4.0 },
+      { id: "acc3", title: "حساب غولد", desc: "حساب جاهز مع كلشي غولد", price: 5.0 },
+      { id: "acc4", title: "حساب بلاتينيوم", desc: "حساب جاهز مع كلشي بلاتينيوم", price: 8.0 },
+      { id: "acc5", title: "حساب دايموند", desc: "حساب جاهز مع كلشي بلاتينيوم", price: 12.0 },
+      { id: "acc6", title: "حساب تشامبيون", desc: "حساب جاهز مع كلشي تشامبيون", price: 20.0 },
+      { id: "acc7", title: "حساب جراند تشامبيون", desc: "حساب جاهز مع كلشي جراند تشامبيون", price: 30.0 },
+      { id: "acc8", title: " سوبر سونك ", desc: "حساب سوبر جاهز مع كلشي", price: 36.0 },
+    ];
+
+    // ترتيب الرانكات (للترفيع حساب الفرق)
+    const RANKS = [
+      "bronze",
+      "silver",
+      "gold",
+      "platinum",
+      "diamond",
+      "champion",
+      "grandchamp",
+    ];
+    const RANK_NAMES = {
+      bronze: "برونز",
+      silver: "سيلفر",
+      gold: "غولد",
+      platinum: "بلاتينيوم",
+      diamond: "دايموند",
+      champion: "تشامبيون",
+      grandchamp: "جراند تشامبيون",
+    };
+    // سعر لكل فرق رانك (مثلاً 10$ لكل مستوى)
+    const PRICE_PER_RANK = 5;
+
+    // السلة: تحميل/حفظ
+    const CART_KEY = "rushy_cart_v2";
+    function loadCart() {
+      return JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    }
+    function saveCart(cart) {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    }
+
+    // عرض حسابات الشراء
+    const accountsListEl = document.getElementById("accounts-list");
+    function renderAccounts() {
+      accountsListEl.innerHTML = "";
+      ACCOUNTS.forEach((acc) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>${acc.title}</h3>
+          <p>${acc.desc}</p>
+          <div class="flex-row" style="justify-content: space-between;">
+            <div class="price">${acc.price.toFixed(2)} $</div>
+            <button class="btn" data-id="${acc.id}">أضف إلى السلة</button>
+          </div>
+        `;
+        accountsListEl.appendChild(card);
+      });
+    }
+
+    // حساب سعر الترفيع حسب فرق الرانك
+    function calcBoostPrice(start, target) {
+      const startIdx = RANKS.indexOf(start);
+      const targetIdx = RANKS.indexOf(target);
+      if (startIdx === -1 || targetIdx === -1 || targetIdx <= startIdx) return 0;
+      return (targetIdx - startIdx) * PRICE_PER_RANK;
+    }
+
+    // عرض السعر في نموذج الترفيع
+    const startRankEl = document.getElementById("start-rank");
+    const targetRankEl = document.getElementById("target-rank");
+    const boostPriceEl = document.getElementById("boost-price");
+    const addBoostBtn = document.getElementById("add-boost");
+
+    function updateBoostPrice() {
+      const start = startRankEl.value;
+      const target = targetRankEl.value;
+      let price = calcBoostPrice(start, target);
+      boostPriceEl.textContent = price > 0 ? price.toFixed(2) + " $" : "اختر رانكات صحيحة";
+      addBoostBtn.disabled = price <= 0;
+    }
+    startRankEl.addEventListener("change", updateBoostPrice);
+    targetRankEl.addEventListener("change", updateBoostPrice);
+    updateBoostPrice();
+
+    // إضافة عنصر للسلة
+    function addToCart(item) {
+      const cart = loadCart();
+      const existing = cart.find((i) => i.id === item.id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ ...item, qty: 1 });
+      }
+      saveCart(cart);
+      renderCart();
+    }
+
+    // التعامل مع أزرار الإضافة
+    accountsListEl.addEventListener("click", (e) => {
+      if (e.target.tagName === "BUTTON") {
+        const id = e.target.getAttribute("data-id");
+        const acc = ACCOUNTS.find((a) => a.id === id);
+        if (acc) addToCart(acc);
+      }
+    });
+    addBoostBtn.addEventListener("click", () => {
+      const start = startRankEl.value;
+      const target = targetRankEl.value;
+      const price = calcBoostPrice(start, target);
+      if (price <= 0) return;
+      addToCart({
+        id: `boost-${start}-${target}`,
+        title: `ترفيع من ${RANK_NAMES[start]} إلى ${RANK_NAMES[target]}`,
+        desc: `خدمة ترفيع رانك من ${RANK_NAMES[start]} إلى ${RANK_NAMES[target]}`,
+        price,
+      });
+    });
+
+    // عرض محتويات السلة
+    const cartListEl = document.getElementById("cartList");
+    const totalAmountEl = document.getElementById("totalAmount");
+
+    function renderCart() {
+      const cart = loadCart();
+      cartListEl.innerHTML = "";
+      if (cart.length === 0) {
+        cartListEl.innerHTML = `<div style="color: var(--muted); font-size: 13px">السلة فارغة — أضف خدمة أو حساب.</div>`;
+        totalAmountEl.textContent = "0.00 $";
+        return;
+      }
+      let total = 0;
+      cart.forEach((item) => {
+        total += item.price * item.qty;
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <div class="ci-info">
+            <strong>${item.title}</strong>
+            <small>${item.desc}</small>
+            <small>السعر: ${item.price.toFixed(2)} $ × ${item.qty}</small>
+          </div>
+          <div class="qty">
+            <button class="qty-minus" data-id="${item.id}">−</button>
+            <div>${item.qty}</div>
+            <button class="qty-plus" data-id="${item.id}">+</button>
+          </div>
+        `;
+        cartListEl.appendChild(div);
+      });
+      totalAmountEl.textContent = total.toFixed(2) + " $";
+    }
+
+    // أزرار زيادة/نقص الكمية
+    cartListEl.addEventListener("click", (e) => {
+      if (e.target.classList.contains("qty-minus")) {
+        const id = e.target.getAttribute("data-id");
+        let cart = loadCart();
+        let item = cart.find((i) => i.id === id);
+        if (item) {
+          item.qty--;
+          if (item.qty < 1) {
+            cart = cart.filter((i) => i.id !== id);
+          }
+          saveCart(cart);
+          renderCart();
+        }
+      }
+      if (e.target.classList.contains("qty-plus")) {
+        const id = e.target.getAttribute("data-id");
+        const cart = loadCart();
+        const item = cart.find((i) => i.id === id);
+        if (item) {
+          item.qty++;
+          saveCart(cart);
+          renderCart();
+        }
+      }
+    });
+
+    // زر تفريغ السلة
+    const clearBtn = document.getElementById("clearBtn");
+    clearBtn.addEventListener("click", () => {
+      localStorage.removeItem(CART_KEY);
+      renderCart();
+    });
+
+    // زر الدفع (يرسل إلى PayPal مع السعر والإيميل)
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    checkoutBtn.addEventListener("click", () => {
+      const cart = loadCart();
+      if (cart.length === 0) {
+        alert("السلة فارغة");
+        return;
+      }
+      // حساب السعر الإجمالي
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      // عنوان الدفع
+      const paypalEmail = "alooyaldoseri54@gmail.com";
+
+      // نفتح صفحة PayPal الدفع
+      // رابط دفع مباشر (paypal.me) لا يدعم تعديل المبلغ، لذلك نستخدم رابط الدفع القياسي:
+      const url = new URL("https://www.paypal.com/cgi-bin/webscr");
+      url.searchParams.set("cmd", "_xclick");
+      url.searchParams.set("business", paypalEmail);
+      url.searchParams.set("currency_code", "USD");
+      url.searchParams.set("amount", total.toFixed(2));
+      url.searchParams.set("item_name", "Rushyshop Order");
+      window.open(url.toString(), "_blank");
+    });
+
+    renderAccounts();
+    renderCart();
+  </script>
+</body>
+</html>
